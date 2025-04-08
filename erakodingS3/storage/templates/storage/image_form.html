@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>S3 Image Upload</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f2f2f2;
+      padding: 2rem;
+      color: #333;
+    }
+
+    h1, h2 {
+      text-align: center;
+    }
+
+    form {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 2rem;
+      gap: 10px;
+    }
+
+    input[type="file"],
+    input[type="text"] {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      width: 300px;
+    }
+
+    button {
+      padding: 10px 15px;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .image-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .image-card {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 200px;
+    }
+
+    .image-card img {
+      max-width: 100%;
+      max-height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    .image-card form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .image-card input[type="text"] {
+      width: 100%;
+    }
+
+    .empty-message {
+      text-align: center;
+      margin-top: 2rem;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+  <h1>Upload Image to S3</h1>
+
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="file" required>
+    <button type="submit">Upload</button>
+  </form>
+
+  <h2>Uploaded Images</h2>
+
+  <div class="image-list">
+    {% for image in images %}
+      <div class="image-card">
+        <img src="{{ image.url }}" alt="{{ image.name }}">
+        
+        <!-- Rename form -->
+        <form method="POST" action="{% url 'update_image' image.id %}">
+          {% csrf_token %}
+          <input type="text" name="name" value="{{ image.name }}">
+          <button type="submit">Rename</button>
+        </form>
+
+        <!-- Delete form -->
+        <form method="POST" action="{% url 'delete_image' image.id %}">
+          {% csrf_token %}
+          <button type="submit" style="background-color: #dc3545;">Delete</button>
+        </form>
+      </div>
+    {% empty %}
+      <p class="empty-message">No images uploaded yet.</p>
+    {% endfor %}
+  </div>
+</body>
+</html>
