@@ -155,11 +155,8 @@ Jangan commit file .env ke repo publik.
 Untuk lingkungan produksi, gunakan HTTPS dan domain khusus (CDN optional).
 📮 License
 
-MIT License © 2025 Your Name
+MIT License © 2025 erakoding
 
 💬 Feedback & Kontribusi
 
 Feel free to fork, raise an issue, or submit a pull request. Let's build better tools together!
-
-
-Kalau kamu kasih nama proyek dan akun GitHub kamu, aku bisa bantu sesuaikan branding-nya juga. Mau aku buatin juga file `.gitignore` dan `zebra config` lengkap?
